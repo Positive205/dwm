@@ -15,7 +15,7 @@ static const double inactiveopacity = 0.775f;	/* Window opacity when it's inacti
 static 	     Bool bUseOpacity	    = True;	/* Starts with opacity on any unfocused windows */
 static char font[]            	    = "JetBrainsMono-Regular:size=10";
 static const char *fonts[]          = { font };
-static char dmenufont[]	            = "JetBrainsMono-regular:size=10";
+static char dmenufont[]	            = "JetBrainsMono-Regular:size=10";
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
@@ -69,9 +69,9 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 #include "gaplessgrid.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
+	{ "[M]",      monocle }, /* first entry is default */
+	{ "[]=",      tile },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
  	{ "[@]",      spiral },
  	{ "[\\]",     dwindle },
 	{ "###",      gaplessgrid },
@@ -91,6 +91,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+static const char *dmenuexec[] = { "j4-dmenu-desktop", "--dmenu=" "dmenu", NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *lockscreen[]  = { "light-locker-command", "-l", NULL };
 static const char *ss[] = { "flameshot", "gui", NULL };
@@ -118,7 +119,8 @@ ResourcePref resources[] = {
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_r,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,			XK_p,	   spawn,	   {.v = dmenuexec } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|Mod1Mask,		XK_l,	   spawn,	   {.v = lockscreen } },
 	{ MODKEY,			XK_Print,  spawn,	   {.v = ss } },
@@ -133,11 +135,11 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_a,      toggleopacity,  {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY|ShiftMask,             XK_s,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,			XK_g,	   setlayout,	   {.v = &layouts[5]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
@@ -150,7 +152,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY,     			XK_y,  	   togglescratch,  {.ui = 0 } },
 	{ MODKEY,            		XK_u,	   togglescratch,  {.ui = 1 } },
-	{ MODKEY,            		XK_x,	   togglescratch,  {.ui = 2 } },
+	{ ControlMask|ShiftMask,        XK_Escape, togglescratch,  {.ui = 2 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
