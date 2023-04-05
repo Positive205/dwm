@@ -1,6 +1,6 @@
 # Posi+ive's build of dwm
 
-Keybinds:
+## Keybinds:
 You can look at config.def.h for all of the
 keybinds that I defined.
 ------
@@ -19,3 +19,8 @@ Patches applied:
 - System Tray
 - True Centered Title
 - XResources
+
+## Building
+------
+Literally just type `make`. Yes. That's it.
+Type in `make install` as root to install it.
